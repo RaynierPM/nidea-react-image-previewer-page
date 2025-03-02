@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useRef, useState } from "react";
+import "./App.css";
+import { ImagePreviewer } from "./core";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const imagePreviewer = useRef();
+  const [image, setImage] = useState();
+
+  function handleImageChange(e) {
+    const uploadedImage = e.target.files[0];
+    if (uploadedImage) {
+      setImage(uploadedImage);
+    }
+  }
+
+  useEffect(() => {
+    if (image instanceof File) {
+      const imageUrl = URL.createObjectURL(image);
+      imagePreviewer.current.addImage(imageUrl);
+    }
+  }, [image]);
+
+  useEffect(() => {
+    const canvas = document.querySelector("canvas#imageCanvas");
+    imagePreviewer.current = new ImagePreviewer(canvas);
+
+    imagePreviewer.current.drawGrid();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header>
+        <h1>Image previewer</h1>
+      </header>
+      <main>
+        <div className="a-center fit-content">
+          <canvas
+            id="imageCanvas"
+            width="400"
+            height="400"
+            style={{
+              backgroundColor: "#ccc4",
+              borderRadius: "20px",
+              boxShadow: "#000 1px 1px 10px",
+              cursor: "all-scroll",
+            }}
+          >
+            This is a canvas, and seems not be supported
+          </canvas>
+          <div className="input">
+            <input
+              type="file"
+              accept=".jpg"
+              onChange={handleImageChange}
+            ></input>
+          </div>
+        </div>
+      </main>
+      <footer>Hola</footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
