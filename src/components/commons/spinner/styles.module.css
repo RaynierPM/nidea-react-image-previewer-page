@@ -1,0 +1,54 @@
+.spinner {
+  width: 250px;
+  height: 250px;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: #00f;
+  
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+
+  border-radius: 100%;
+
+  animation-name: spinning;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+
+  position: relative;
+}
+
+.spinner::after {
+  content: '';
+  position: absolute;
+
+  border-style: groove;
+  border-color: red;
+  border-width: 2px;
+  
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+
+  border-radius: 100%;
+
+
+  width: 100%;
+  height: 100%;
+
+  animation-name: spinning;
+  animation-timing-function: ease-in-out;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+  animation-delay: .4s;
+}
+
+@keyframes spinning {
+  from {
+    transform: rotate(0);
+  } to {
+    transform: rotate(360deg);
+  }
+}

@@ -16,6 +16,12 @@
   padding: 15px 10px;
 }
 
+.a-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .fit-content {
   width: fit-content;
   margin: 0 auto;
