@@ -1,51 +1,57 @@
-import { useEffect, useRef, useState } from "react";
+import { Flex, Input, Switch } from "antd";
 import "./App.css";
-import { ImagePreviewer } from "./core";
+import ImagePreviewer from "./components/commons/ImagePreviewer";
+import Title from "antd/es/typography/Title";
+import { useState } from "react";
+import Slot from "./components/configuration/slot";
 
 function App() {
-  /**
-   * @type {import("react").RefObject<ImagePreviewer>}
-   */
-  const imagePreviewer = useRef();
-  const [image, setImage] = useState();
+  const [width, setWidth] = useState(400);
+  const [height, setHeight] = useState(400);
+  const [alwaysShowPreviewer, setAlwaysShowPreviewer] = useState(true);
+  const [showCrosshair, setShowCrosshair] = useState(true);
+  const [crosshairRadius, setCrosshairRadius] = useState("auto");
 
-  function handleImageChange(e) {
-    const uploadedImage = e.target.files[0];
-    if (uploadedImage) {
-      setImage(uploadedImage);
-    }
+  /**
+   *
+   * @param {import('react').ChangeEvent<HTMLInputElement>} event
+   */
+  function handleChangeWidth(event) {
+    const { value } = event.target;
+    setWidth(Number(value));
   }
 
   /**
    *
-   * @param {import('react').MouseEvent<HTMLButtonElement, Element>} event
+   * @param {import('react').ChangeEvent<HTMLInputElement>} event
    */
-  function handleDownload(event) {
-    event.preventDefault();
-    imagePreviewer.current.downloadImage();
+  function handleChangeHeight(event) {
+    const { value } = event.target;
+    setHeight(Number(value));
   }
 
-  useEffect(() => {
-    if (image instanceof File) {
-      const imageUrl = URL.createObjectURL(image);
-      imagePreviewer.current.addImage(imageUrl);
+  function handleToggleShowCanvas() {
+    setAlwaysShowPreviewer(!alwaysShowPreviewer);
+  }
+
+  function handleToggleShowCrosshair() {
+    setShowCrosshair(!showCrosshair);
+  }
+
+  /** @param {import('react').ChangeEvent} event*/
+  function handleChangeCrosshairRadius(event) {
+    const { value } = event.target;
+    setCrosshairRadius(Number(value));
+  }
+
+  /** @param {boolean} checked */
+  function toggleAutoCrosshairRadius(checked) {
+    if (!checked) {
+      setCrosshairRadius(100);
+    } else {
+      setCrosshairRadius("auto");
     }
-  }, [image]);
-
-  useEffect(() => {
-    const canvas = document.querySelector("canvas#imageCanvas");
-    if (canvas) {
-      imagePreviewer.current = new ImagePreviewer(canvas);
-
-      imagePreviewer.current.drawGrid();
-
-      imagePreviewer.current.addDragEvent();
-
-      return () => {
-        imagePreviewer.current.removeDragEvent();
-      };
-    }
-  }, []);
+  }
 
   return (
     <>
@@ -53,35 +59,77 @@ function App() {
         <h1>Image previewer</h1>
       </header>
       <main style={{ padding: "10rem 0px" }}>
-        <div className="a-center fit-content">
-          <div>
-            <canvas
-              id="imageCanvas"
-              width="400"
-              height="400" 
-              style={{
-                backgroundColor: "#ccc4",
-                borderRadius: "20px",
-                boxShadow: "#000 1px 1px 10px",
-                cursor: "all-scroll",
-              }}
-            >
-              This is a canvas, and seems not be supported by your browser
-            </canvas>
-            <div className="input" style={{ display: "flex", flexWrap: 'wrap' }}>
-              <input type="file" accept="image/*" onChange={handleImageChange} />
-              <button onClick={handleDownload}>Download image</button>
-              <button style={{width: '100%'}} onClick={() => {
-                imagePreviewer.current.clearCanvas()
-                imagePreviewer.current.drawGrid()
-              }}>
-                Clear canvas
-              </button>
-            </div>
-          </div>
-        </div>
+        <ImagePreviewer
+          width={width}
+          height={height}
+          alwaysShowCanvas={alwaysShowPreviewer}
+          showCrosshair={showCrosshair}
+          crosshairRadius={crosshairRadius}
+        />
+
+        <Flex
+          vertical
+          style={{
+            margin: "0 10px",
+            padding: "10px",
+            backgroundColor: "#eeea",
+            borderRadius: "20px",
+          }}
+        >
+          <Title level={3}>Configuration</Title>
+          <Flex wrap>
+            <Slot>
+              <Title level={5}>Width</Title>
+              <Input type="number" value={width} onChange={handleChangeWidth} />
+            </Slot>
+            <Slot>
+              <Title level={5}>Height</Title>
+              <Input
+                type="number"
+                value={height}
+                onChange={handleChangeHeight}
+              />
+            </Slot>
+            <Slot>
+              <Flex gap={10}>
+                <Title level={5}>Always show image previewer</Title>
+                <Switch
+                  onChange={handleToggleShowCanvas}
+                  checked={alwaysShowPreviewer}
+                />
+              </Flex>
+            </Slot>
+            <Slot>
+              <Flex gap={10}>
+                <Title level={5}>Show previewer crosshair</Title>
+                <Switch
+                  onChange={handleToggleShowCrosshair}
+                  checked={showCrosshair}
+                />
+              </Flex>
+            </Slot>
+            <Slot>
+              <Flex gap={10}>
+                <Title level={5}>Show previewer crosshair</Title>
+                <Switch
+                  onChange={toggleAutoCrosshairRadius}
+                  checked={crosshairRadius === "auto"}
+                />
+                (Auto)
+              </Flex>
+              {crosshairRadius !== "auto" && (
+                <Input
+                  value={crosshairRadius}
+                  onChange={handleChangeCrosshairRadius}
+                />
+              )}
+            </Slot>
+          </Flex>
+        </Flex>
       </main>
-      <footer>Hola</footer>
+      <footer>
+        <p>Made by RaynierPM (2025)</p>
+      </footer>
     </>
   );
 }

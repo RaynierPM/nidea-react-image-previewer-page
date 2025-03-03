@@ -3,8 +3,9 @@ export class ImageInfo {
   /**
    * 
    * @param {HTMLImageElement} img
+   * @param {number?} aspectRatio
    */
-    constructor(img) {
+    constructor(img, aspectRatio) {
       if (!(img instanceof Image)) {
         throw new Error('Not valid image')
       }
@@ -18,16 +19,16 @@ export class ImageInfo {
   
       this.#height = height
       this.#width = width
-      this.#aspectRatio = width/height
-  
+      this.#aspectRatio = aspectRatio ?? width/height
+
+
       if (this.showImageFullWidth()) {
         this.#slicedWidth = width
-        this.#slicedheight = width
+        this.#slicedheight = height * this.#aspectRatio
       }else {
-        this.#slicedWidth = height
+        this.#slicedWidth = width / this.#aspectRatio
         this.#slicedheight = height
       }
-  
     }
 
   #img;

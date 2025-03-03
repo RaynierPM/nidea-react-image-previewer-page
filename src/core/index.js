@@ -4,6 +4,18 @@ import { DragHandler } from "./DragHandler";
 
 const DEFAULT_COORD = 0;
 
+/**
+ * @typedef CanvasOptions
+ * @property {boolean} withCrosshair
+ * @property {string | number} crossHairRadius
+ */
+
+/** @type {CanvasOptions} */
+const DEFAULT_OPTIONS = {
+  withCrosshair: true,
+  crossHairRadius: "auto",
+};
+
 export class ImagePreviewer {
   /** @type {HTMLCanvasElement} */
   canvas;
@@ -14,8 +26,27 @@ export class ImagePreviewer {
   /** @type {{width: number; height: number}} */
   #dimensions;
 
+  /** @param {{width: number, height: number}} dimensions */
+  set dimensions(dimensions) {
+    if (
+      dimensions &&
+      typeof dimensions.width === "number" &&
+      typeof dimensions.height === "number"
+    ) {
+      this.#dimensions = { width: dimensions.width, height: dimensions.height };
+    }
+  }
+
   /** @type {number} - Space between grid's lines */
   #GRID_INCREMENT;
+
+  /** @type {CanvasOptions} */
+  #options;
+
+  /** @param {CanvasOptions} opts */
+  set options(opts) {
+    this.#options = { ...this.#options, opts };
+  }
 
   /** @type {number} */
   // #zoom = 1;
@@ -31,14 +62,22 @@ export class ImagePreviewer {
 
   /**
    * @param {HTMLCanvasElement} canvas
+   * @param {CanvasOptions?} options
    */
-  constructor(canvas) {
+  constructor(canvas, options) {
     if (
       !(canvas instanceof HTMLCanvasElement) ||
       canvas.tagName.toLowerCase() != "canvas"
     ) {
       throw new Error("Canvas element required");
     }
+
+    if (!options) {
+      this.#options = { ...DEFAULT_OPTIONS };
+    } else {
+      this.#options = { ...DEFAULT_OPTIONS, ...options };
+    }
+
     this.canvas = canvas;
     const ctx = canvas.getContext("2d");
     if (ctx instanceof CanvasRenderingContext2D) {
@@ -85,10 +124,13 @@ export class ImagePreviewer {
   }
 
   drawCrosshair() {
+    const { crossHairRadius, withCrosshair } = this.#options;
+    if (!withCrosshair) return;
+
     const ctx = this.context;
     const { width, height } = this.#dimensions;
     ctx.beginPath();
-    ctx.fillStyle = "#9999";
+    ctx.fillStyle = "#0007";
     ctx.moveTo(0, 0);
     ctx.lineTo(width, 0);
     ctx.lineTo(width, height);
@@ -97,7 +139,9 @@ export class ImagePreviewer {
     ctx.arc(
       width / 2,
       height / 2,
-      (width + height) * 0.21,
+      !crossHairRadius || crossHairRadius === "auto"
+        ? (width + height) * 0.21
+        : crossHairRadius,
       0,
       2 * Math.PI,
       true
@@ -106,20 +150,26 @@ export class ImagePreviewer {
   }
 
   clearCanvas() {
-    this.context.clearRect(0, 0, this.#dimensions.width, this.#dimensions.height)
+    this.context.clearRect(
+      0,
+      0,
+      this.#dimensions.width,
+      this.#dimensions.height
+    );
+    this.drawGrid();
   }
 
   addImage(imgPath, withCrosshair = true) {
     const img = new Image();
     img.addEventListener("load", () => {
       this.#imageInfo = this.#getCanvasImageInfo(img);
-      this.#drawImage();
+      this.drawImage();
       withCrosshair && this.drawCrosshair();
     });
     img.src = imgPath;
   }
 
-  #drawImage() {
+  drawImage() {
     if (this.#imageInfo) {
       const { img } = this.#imageInfo;
 
@@ -153,7 +203,7 @@ export class ImagePreviewer {
     if (this.#isClicked && this.#imageInfo.img) {
       const { x, y } = this.#getCanvasClickPosition(event);
       const { x: xPxQty, y: yPxQty } = this.#dragHandler.getDifference(x, y);
-      this.moveImage(xPxQty, yPxQty)
+      this.moveImage(xPxQty, yPxQty);
     }
   }
 
@@ -219,21 +269,20 @@ export class ImagePreviewer {
    */
   moveImage(xPxQty, yPxQty) {
     this.#imageInfo.move(xPxQty, yPxQty);
-    this.#drawImage();
-    +
-    this.drawCrosshair();
+    this.drawImage();
+    +this.drawCrosshair();
   }
 
   async downloadImage() {
     if (this.#imageInfo) {
-      return await new DownloableCanvas(this.#imageInfo).download()
+      return await new DownloableCanvas(this.#imageInfo).download();
     }
-    return 
+    return;
   }
 
   async getBlob() {
     if (this.#imageInfo) {
-      return await new DownloableCanvas(this.#imageInfo).getBlob()
+      return await new DownloableCanvas(this.#imageInfo).getBlob();
     }
   }
 }
