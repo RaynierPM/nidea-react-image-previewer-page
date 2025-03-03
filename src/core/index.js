@@ -1,8 +1,8 @@
+import { downloableCanvas } from "./CanvasDownloable";
 import { ImageInfo } from "./CanvasImageInfo";
 import { DragHandler } from "./DragHandler";
 
 const DEFAULT_COORD = 0;
-const MIN_TIMEOUT = 300;
 
 export class ImagePreviewer {
   /** @type {HTMLCanvasElement} */
@@ -224,34 +224,9 @@ export class ImagePreviewer {
   }
 
   async downloadImage() {
-    let res;
-    const promise = new Promise((resolve) => {
-      res = resolve;
-    });
-
-    if (!this.#imageInfo) {
-      res?.()
-      return promise
+    if (this.#imageInfo) {
+      return await new downloableCanvas(this.#imageInfo).download()
     }
-
-    this.#drawImage();
-    this.canvas.toBlob(
-      (blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "image.png";
-        a.click();
-        URL.revokeObjectURL(url);
-        this.drawCrosshair();
-        setTimeout(() => {
-          res?.();
-        }, MIN_TIMEOUT);
-      },
-      "image/jpeg",
-      1
-    );
-
-    return promise;
+    return 
   }
 }
