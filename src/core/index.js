@@ -1,4 +1,4 @@
-import { downloableCanvas } from "./CanvasDownloable";
+import { DownloableCanvas } from "./CanvasDownloable";
 import { ImageInfo } from "./CanvasImageInfo";
 import { DragHandler } from "./DragHandler";
 
@@ -10,6 +10,7 @@ export class ImagePreviewer {
 
   /** @type {CanvasRenderingContext2D} */
   context;
+
   /** @type {{width: number; height: number}} */
   #dimensions;
 
@@ -104,8 +105,8 @@ export class ImagePreviewer {
     ctx.fill();
   }
 
-  clearContext() {
-    // this.context.clea
+  clearCanvas() {
+    this.context.clearRect(0, 0, this.#dimensions.width, this.#dimensions.height)
   }
 
   addImage(imgPath, withCrosshair = true) {
@@ -152,8 +153,7 @@ export class ImagePreviewer {
     if (this.#isClicked && this.#imageInfo.img) {
       const { x, y } = this.#getCanvasClickPosition(event);
       const { x: xPxQty, y: yPxQty } = this.#dragHandler.getDifference(x, y);
-
-      this.moveImage(xPxQty, yPxQty);
+      this.moveImage(xPxQty, yPxQty)
     }
   }
 
@@ -220,13 +220,20 @@ export class ImagePreviewer {
   moveImage(xPxQty, yPxQty) {
     this.#imageInfo.move(xPxQty, yPxQty);
     this.#drawImage();
+    +
     this.drawCrosshair();
   }
 
   async downloadImage() {
     if (this.#imageInfo) {
-      return await new downloableCanvas(this.#imageInfo).download()
+      return await new DownloableCanvas(this.#imageInfo).download()
     }
     return 
+  }
+
+  async getBlob() {
+    if (this.#imageInfo) {
+      return await new DownloableCanvas(this.#imageInfo).getBlob()
+    }
   }
 }

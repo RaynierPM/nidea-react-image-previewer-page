@@ -68,9 +68,15 @@ function App() {
             >
               This is a canvas, and seems not be supported by your browser
             </canvas>
-            <div className="input" style={{ display: "flex" }}>
+            <div className="input" style={{ display: "flex", flexWrap: 'wrap' }}>
               <input type="file" accept="image/*" onChange={handleImageChange} />
               <button onClick={handleDownload}>Download image</button>
+              <button style={{width: '100%'}} onClick={() => {
+                imagePreviewer.current.clearCanvas()
+                imagePreviewer.current.drawGrid()
+              }}>
+                Clear canvas
+              </button>
             </div>
           </div>
         </div>

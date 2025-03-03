@@ -52,8 +52,6 @@ export class ImageInfo {
     if (typeof x === 'number'
       && (x >= 0 && x <= this.horizontalMovementLimit)
     ) {
-      console.log({xLimit: this.horizontalMovementLimit})
-      console.log({x})
       this.#x = x
     }
   }

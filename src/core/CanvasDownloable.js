@@ -4,7 +4,7 @@ const EXTENSIONS = {
   [IMAGE_TYPE]: ".jpeg",
 };
 
-export class downloableCanvas {
+export class DownloableCanvas {
   /** @type {import('./CanvasImageInfo').ImageInfo} */
   #imageInfo = null;
 
@@ -46,7 +46,6 @@ export class downloableCanvas {
   }
 
   async download() {
-    this.#init();
     let res;
     const promise = new Promise((resolve) => {
       res = resolve;
@@ -70,5 +69,23 @@ export class downloableCanvas {
     );
 
     return promise;
+  }
+
+  /**
+   * 
+   * @returns {Promise<Blob>} file
+   */
+  async getBlob() {
+    let res;
+    /** @type {Promise<Blob>} */
+    const promise = new Promise(resolve => {
+      res = resolve
+    })
+
+    this.#canvas.toBlob(blob => {
+      res?.(blob)
+    })
+
+    return promise
   }
 }
