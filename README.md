@@ -1,8 +1,57 @@
-# React + Vite
+React Image Previewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based image previewer built with Vite. This project allows users to upload images and preview them on a canvas with interactive features.
 
-Currently, two official plugins are available:
+Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Image upload and preview
+
+Zoom in and zoom out functionality
+
+Move image within the canvas
+
+Support for multiple image formats (JPEG, PNG, GIF, etc.)
+
+Lightweight and fast using Vite
+
+Getting Started
+
+Prerequisites
+
+Make sure you have Node.js installed.
+
+Installation
+
+Clone the repository and install dependencies:
+
+git clone https://github.com/yourusername/react-image-previewer.git
+cd react-image-previewer
+npm install
+
+Development
+
+Run the project in development mode:
+
+npm run dev
+
+Build
+
+Generate a production build:
+
+npm run build
+
+Technologies Used
+
+React
+
+Vite
+
+JavaScript (ES6+)
+
+CSS
+
+License
+
+This project is licensed under the MIT License.
+
+Feel free to contribute or suggest improvements!
