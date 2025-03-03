@@ -1,57 +1,59 @@
-React Image Previewer
+# React Image Previewer
 
 A React-based image previewer built with Vite. This project allows users to upload images and preview them on a canvas with interactive features.
 
-Features
+## Features
 
-Image upload and preview
+- Image upload and preview
+- Zoom in and zoom out functionality
+- Move image within the canvas
+- Support for multiple image formats (JPEG, PNG, GIF, etc.)
+- Lightweight and fast using Vite
 
-Zoom in and zoom out functionality
+## Getting Started
 
-Move image within the canvas
+### Prerequisites
 
-Support for multiple image formats (JPEG, PNG, GIF, etc.)
+Make sure you have [Node.js](https://nodejs.org/) installed.
 
-Lightweight and fast using Vite
-
-Getting Started
-
-Prerequisites
-
-Make sure you have Node.js installed.
-
-Installation
+### Installation
 
 Clone the repository and install dependencies:
 
+```sh
 git clone https://github.com/yourusername/react-image-previewer.git
 cd react-image-previewer
 npm install
+```
 
-Development
+### Development
 
 Run the project in development mode:
 
+```sh
 npm run dev
+```
 
-Build
+### Build
 
 Generate a production build:
 
+```sh
 npm run build
+```
 
-Technologies Used
+## Technologies Used
 
-React
+- React
+- Vite
+- JavaScript (ES6+)
+- CSS
 
-Vite
-
-JavaScript (ES6+)
-
-CSS
-
-License
+## License
 
 This project is licensed under the MIT License.
 
+---
+
 Feel free to contribute or suggest improvements!
+
