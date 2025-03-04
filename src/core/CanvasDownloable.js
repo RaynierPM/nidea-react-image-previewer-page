@@ -5,7 +5,7 @@ const EXTENSIONS = {
 };
 
 export class DownloableCanvas {
-  /** @type {import('./CanvasImageInfo').ImageInfo} */
+  /** @type {import('./CanvasImagePointer').ImagePointer} */
   #imageInfo = null;
 
   /** @type {HTMLCanvasElement} */
@@ -15,7 +15,7 @@ export class DownloableCanvas {
   #ctx;
   /**
    *
-   * @param {import('./CanvasImageInfo').ImageInfo} imageInfo
+   * @param {import('./CanvasImagePointer').ImagePointer} imageInfo
    */
   constructor(imageInfo) {
     this.#imageInfo = imageInfo;
@@ -72,20 +72,20 @@ export class DownloableCanvas {
   }
 
   /**
-   * 
+   *
    * @returns {Promise<Blob>} file
    */
   async getBlob() {
     let res;
     /** @type {Promise<Blob>} */
-    const promise = new Promise(resolve => {
-      res = resolve
-    })
+    const promise = new Promise((resolve) => {
+      res = resolve;
+    });
 
-    this.#canvas.toBlob(blob => {
-      res?.(blob)
-    })
+    this.#canvas.toBlob((blob) => {
+      res?.(blob);
+    });
 
-    return promise
+    return promise;
   }
 }

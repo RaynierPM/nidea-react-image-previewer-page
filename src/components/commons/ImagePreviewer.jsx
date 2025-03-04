@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
-import { ImagePreviewer as CanvasImagePreviewer } from "../../core/index";
+import { ImagePreviewer as CanvasImagePreviewer } from "core/index";
 import { Button, Input } from "antd";
 
 export default function ImagePreviewer({

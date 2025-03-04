@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-
+import styles from "./styles.module.css";
 export default function Slot({ children }) {
   return (
-    <div style={{ padding: "5px", width: "50%" }}>
+    <div style={{ padding: "5px" }} className={styles.slot}>
       <div
         style={{
           border: "solid 1px #ccc",

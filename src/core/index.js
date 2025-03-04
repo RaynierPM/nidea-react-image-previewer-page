@@ -1,5 +1,5 @@
 import { DownloableCanvas } from "./CanvasDownloable";
-import { ImageInfo } from "./CanvasImageInfo";
+import { ImagePointer } from "./CanvasImagePointer";
 import { DragHandler } from "./DragHandler";
 
 const DEFAULT_COORD = 0;
@@ -56,7 +56,7 @@ export class ImagePreviewer {
   /** @type {number} */
   // #zoom = 1;
   /**
-   * @type {ImageInfo | null}
+   * @type {ImagePointer | null}
    */
   #imageInfo = null;
 
@@ -166,6 +166,7 @@ export class ImagePreviewer {
 
   addImage(imgPath, withCrosshair = true) {
     const img = new Image();
+    this.clearCanvas();
     img.addEventListener("load", () => {
       this.#imageInfo = this.#getCanvasImageInfo(img);
       this.drawImage();
@@ -176,7 +177,7 @@ export class ImagePreviewer {
 
   refreshImage() {
     if (this.#imageInfo) {
-      this.#imageInfo = new ImageInfo(this.#imageInfo.img, this.aspectRatio);
+      this.#imageInfo = new ImagePointer(this.#imageInfo.img, this.#dimensions);
     }
     this.clearCanvas();
     this.drawImage();
@@ -205,7 +206,7 @@ export class ImagePreviewer {
    * @param {HTMLImageElement} img
    */
   #getCanvasImageInfo(img) {
-    return new ImageInfo(img, this.aspectRatio);
+    return new ImagePointer(img, this.#dimensions);
   }
 
   /**

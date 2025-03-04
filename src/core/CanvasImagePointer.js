@@ -1,10 +1,10 @@
-export class ImageInfo {
+export class ImagePointer {
   /**
    *
    * @param {HTMLImageElement} img
-   * @param {number} canvasAspectRatio
+   * @param {{width: number, height: number}} canvasDimensions
    */
-  constructor(img, canvasAspectRatio) {
+  constructor(img, canvasDimensions) {
     if (!(img instanceof Image)) {
       throw new Error("Not valid image");
     }
@@ -18,16 +18,52 @@ export class ImageInfo {
 
     this.#height = height;
     this.#width = width;
+
+    this.#canvasDimensions = canvasDimensions;
+
     this.#aspectRatio = width / height;
+    this.#canvasAspectRatio = canvasDimensions.width / canvasDimensions.height;
 
-    this.#canvasAspectRatio = canvasAspectRatio;
+    this.#calculateSlicedImage();
 
+    console.log({
+      movX: this.horizontalMovementLimit,
+      movY: this.verticalMovementLimit,
+      X: this.#x,
+      Y: this.#y,
+      imageWidth: this.#width,
+      imageHeight: this.#height,
+      slicedHeight: this.slicedHeight,
+      slicedWidth: this.slicedWidth,
+      zoom: this.#scale,
+      aspectRatio: this.aspectRatio,
+      canvasAspectRatio: this.#canvasAspectRatio,
+      canvasDimensions: this.#canvasDimensions,
+      showFullWidth: this.showImageFullWidth,
+    });
+  }
+
+  #calculateSlicedImage() {
     if (this.showImageFullWidth) {
-      this.#slicedWidth = width;
-      this.#slicedheight = width / this.#canvasAspectRatio;
+      this.#slicedWidth = this.#width;
+      this.#slicedHeight = this.#width / this.#canvasAspectRatio;
     } else {
-      this.#slicedWidth = height * this.#canvasAspectRatio;
-      this.#slicedheight = height;
+      this.#slicedWidth = this.#height * this.#canvasAspectRatio;
+      this.#slicedHeight = this.#height;
+    }
+
+    this.#calculateZoom();
+  }
+
+  #calculateZoom() {
+    if (!this.showImageFullWidth) {
+      if (this.#slicedWidth >= this.#width) {
+        this.#scale = Math.min(this.#width / this.#slicedWidth, 1);
+      }
+    } else {
+      if (this.#slicedHeight >= this.#height) {
+        this.#scale = Math.min(this.#height / this.#slicedHeight, 1);
+      }
     }
   }
 
@@ -96,6 +132,12 @@ export class ImageInfo {
     return this.#aspectRatio;
   }
 
+  #canvasDimensions;
+
+  get canvasDimensions() {
+    return this.#canvasDimensions;
+  }
+
   #canvasAspectRatio;
 
   get canvasAspectRatio() {
@@ -109,22 +151,25 @@ export class ImageInfo {
   #slicedWidth;
 
   get slicedWidth() {
-    return this.#slicedWidth;
+    return this.#slicedWidth * this.#scale;
   }
 
-  #slicedheight;
+  #slicedHeight;
 
   get slicedHeight() {
-    return this.#slicedheight;
+    return this.#slicedHeight * this.#scale;
   }
 
   get horizontalMovementLimit() {
-    return this.#width - this.#slicedWidth;
+    return this.#width - this.slicedWidth;
   }
 
   get verticalMovementLimit() {
-    return this.#height - this.#slicedheight;
+    return this.#height - this.slicedHeight;
   }
+
+  /** @type {number} */
+  #scale = 1;
 
   /**
    *
