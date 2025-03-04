@@ -2,9 +2,9 @@ export class ImageInfo {
   /**
    *
    * @param {HTMLImageElement} img
-   * @param {number?} aspectRatio
+   * @param {number} canvasAspectRatio
    */
-  constructor(img, aspectRatio) {
+  constructor(img, canvasAspectRatio) {
     if (!(img instanceof Image)) {
       throw new Error("Not valid image");
     }
@@ -18,13 +18,15 @@ export class ImageInfo {
 
     this.#height = height;
     this.#width = width;
-    this.#aspectRatio = aspectRatio ?? width / height;
+    this.#aspectRatio = width / height;
+
+    this.#canvasAspectRatio = canvasAspectRatio;
 
     if (this.showImageFullWidth) {
       this.#slicedWidth = width;
-      this.#slicedheight = height * this.#aspectRatio;
+      this.#slicedheight = width / this.#canvasAspectRatio;
     } else {
-      this.#slicedWidth = width / this.#aspectRatio;
+      this.#slicedWidth = height * this.#canvasAspectRatio;
       this.#slicedheight = height;
     }
   }
@@ -92,6 +94,12 @@ export class ImageInfo {
 
   get aspectRatio() {
     return this.#aspectRatio;
+  }
+
+  #canvasAspectRatio;
+
+  get canvasAspectRatio() {
+    return this.#canvasAspectRatio;
   }
 
   get showImageFullWidth() {
