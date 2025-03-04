@@ -70,7 +70,7 @@ function App() {
         <Flex
           vertical
           style={{
-            margin: "0 10px",
+            margin: "5px 10px",
             padding: "10px",
             backgroundColor: "#eeea",
             borderRadius: "20px",

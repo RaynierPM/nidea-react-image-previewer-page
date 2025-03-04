@@ -44,8 +44,6 @@ export default function ImagePreviewer({
 
       imagePreviewer.current.drawGrid();
 
-      imagePreviewer.current.addDragEvent();
-
       if (image instanceof File) {
         const imageUrl = URL.createObjectURL(image);
         imagePreviewer.current?.addImage(imageUrl);
@@ -83,7 +81,7 @@ export default function ImagePreviewer({
         style={{
           display: "flex",
           justifyContent: "center",
-          margin: "10px 0px",
+          margin: "10px 5px",
         }}
       >
         <canvas

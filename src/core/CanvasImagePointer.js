@@ -25,22 +25,6 @@ export class ImagePointer {
     this.#canvasAspectRatio = canvasDimensions.width / canvasDimensions.height;
 
     this.#calculateSlicedImage();
-
-    console.log({
-      movX: this.horizontalMovementLimit,
-      movY: this.verticalMovementLimit,
-      X: this.#x,
-      Y: this.#y,
-      imageWidth: this.#width,
-      imageHeight: this.#height,
-      slicedHeight: this.slicedHeight,
-      slicedWidth: this.slicedWidth,
-      zoom: this.#scale,
-      aspectRatio: this.aspectRatio,
-      canvasAspectRatio: this.#canvasAspectRatio,
-      canvasDimensions: this.#canvasDimensions,
-      showFullWidth: this.showImageFullWidth,
-    });
   }
 
   #calculateSlicedImage() {
@@ -177,7 +161,7 @@ export class ImagePointer {
    * @param {*} yPxQty - Pixels quantity to add/remove
    */
   move(xPxQty, yPxQty) {
-    this.x = this.#x + xPxQty * 0.5;
-    this.y = this.#y + yPxQty * 0.5;
+    this.x = this.#x + xPxQty;
+    this.y = this.#y + yPxQty;
   }
 }

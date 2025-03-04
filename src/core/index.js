@@ -98,6 +98,8 @@ export class ImagePreviewer {
     this.#dimensions = dimensions;
     this.#GRID_INCREMENT =
       (this.#dimensions.width + this.#dimensions.height) * 0.1;
+
+    this.addDragEvent();
   }
 
   drawGrid() {
@@ -247,34 +249,38 @@ export class ImagePreviewer {
     return { x: positionX, y: positionY };
   }
 
+  /** @type {(event: MouseEvent) => void} */
+  #mouseDownClickHandler = (event) => {
+    this.#isClickedHandler(event);
+  };
+
+  /** @type {(event: MouseEvent) => void} */
+  #mouseUpClickHandler = (event) => {
+    this.#isUnclickedHandler(event);
+  };
+
+  /** @type {(event: MouseEvent) => void} */
+  #mouseOverHandler = (event) => {
+    this.#isUnclickedHandler(event);
+  };
+
+  /** @type {(event: MouseEvent) => void} */
+  #mouseMoveHandler = (event) => {
+    this.#onDragHandler(event);
+  };
+
   addDragEvent() {
-    this.canvas.addEventListener("mousedown", (event) => {
-      this.#isClickedHandler(event);
-    });
-    this.canvas.addEventListener("mouseup", (event) => {
-      this.#isUnclickedHandler(event);
-    });
-    this.canvas.addEventListener("mouseover", (event) => {
-      this.#isUnclickedHandler(event);
-    });
-    this.canvas.addEventListener("mousemove", (event) => {
-      this.#onDragHandler(event);
-    });
+    this.canvas.addEventListener("mousedown", this.#mouseDownClickHandler);
+    this.canvas.addEventListener("mouseup", this.#mouseUpClickHandler);
+    this.canvas.addEventListener("mouseover", this.#mouseOverHandler);
+    this.canvas.addEventListener("mousemove", this.#mouseMoveHandler);
   }
 
   removeDragEvent() {
-    this.canvas.removeEventListener("mousedown", (event) => {
-      this.#isClickedHandler(event);
-    });
-    this.canvas.removeEventListener("mouseup", (event) => {
-      this.#isUnclickedHandler(event);
-    });
-    this.canvas.removeEventListener("mouseover", (event) => {
-      this.#isUnclickedHandler(event);
-    });
-    this.canvas.removeEventListener("mousemove", (event) => {
-      this.#onDragHandler(event);
-    });
+    this.canvas.removeEventListener("mousedown", this.#mouseDownClickHandler);
+    this.canvas.removeEventListener("mouseup", this.#mouseUpClickHandler);
+    this.canvas.removeEventListener("mouseover", this.#mouseOverHandler);
+    this.canvas.removeEventListener("mousemove", this.#mouseMoveHandler);
   }
 
   /**
