@@ -34,7 +34,12 @@ export class ImagePreviewer {
       typeof dimensions.height === "number"
     ) {
       this.#dimensions = { width: dimensions.width, height: dimensions.height };
+      this.refreshImage();
     }
+  }
+
+  get aspectRatio() {
+    return this.#dimensions.width / this.#dimensions.height;
   }
 
   /** @type {number} - Space between grid's lines */
@@ -45,7 +50,7 @@ export class ImagePreviewer {
 
   /** @param {CanvasOptions} opts */
   set options(opts) {
-    this.#options = { ...this.#options, opts };
+    this.#options = { ...this.#options, ...opts };
   }
 
   /** @type {number} */
@@ -169,6 +174,14 @@ export class ImagePreviewer {
     img.src = imgPath;
   }
 
+  refreshImage() {
+    if (this.#imageInfo) {
+      this.#imageInfo = new ImageInfo(this.#imageInfo.img, this.aspectRatio);
+    }
+    this.clearCanvas();
+    this.drawImage();
+  }
+
   drawImage() {
     if (this.#imageInfo) {
       const { img } = this.#imageInfo;
@@ -192,7 +205,7 @@ export class ImagePreviewer {
    * @param {HTMLImageElement} img
    */
   #getCanvasImageInfo(img) {
-    return new ImageInfo(img);
+    return new ImageInfo(img, this.aspectRatio);
   }
 
   /**
@@ -207,6 +220,7 @@ export class ImagePreviewer {
     }
   }
 
+  /** @param {MouseEvent} event */
   #isClickedHandler(event) {
     if (this.#imageInfo) {
       const { x, y } = this.#getCanvasClickPosition(event);

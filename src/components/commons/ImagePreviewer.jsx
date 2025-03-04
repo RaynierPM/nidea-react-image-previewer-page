@@ -60,26 +60,15 @@ export default function ImagePreviewer({
 
   useEffect(() => {
     imagePreviewer.current.dimensions = { width, height };
-    if (image) {
-      imagePreviewer.current.drawImage();
-    } else {
-      imagePreviewer.current.clearCanvas();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    imagePreviewer.current.refreshImage();
   }, [width, height]);
 
   useEffect(() => {
-    console.log({ crosshairRadius, showCrosshair });
     imagePreviewer.current.options = {
       crossHairRadius: crosshairRadius,
       withCrosshair: showCrosshair,
     };
-    if (image) {
-      imagePreviewer.current.drawImage();
-    } else {
-      imagePreviewer.current.clearCanvas();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    imagePreviewer.current.refreshImage();
   }, [showCrosshair, crosshairRadius]);
 
   return (
