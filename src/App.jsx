@@ -213,8 +213,22 @@ function App() {
           )}
         </ImagePreviewer>
       </main>
-      <footer>
-        <p>Made by RaynierPM (2025)</p>
+      <footer
+        style={{
+          display: "flex",
+          gap: "3px",
+          justifyContent: "center",
+        }}
+      >
+        <p>Made by RaynierPM (2025)</p> |{" "}
+        <a
+          style={{
+            textDecoration: "none",
+          }}
+          href="https://github.com/RaynierPM/react-image-previewer"
+        >
+          Github
+        </a>
       </footer>
     </>
   );
