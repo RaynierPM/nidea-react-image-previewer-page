@@ -25,7 +25,7 @@ export const EXAMPLE = `<ImagePreviewer
 
       <ImagePreviewer.BlobButton>
         {({ loadBlob }) => (
-          <ButtoncodeExample
+          <Button
             onClick={async () => {
               console.log(await loadBlob());
             }}
