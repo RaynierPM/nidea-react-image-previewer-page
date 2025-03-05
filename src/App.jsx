@@ -1,11 +1,11 @@
 import { Button, Flex, Input, Switch } from "antd";
 import "./App.css";
-import ImagePreviewer from "./components/Previewer/ImagePreviewer";
 import Title from "antd/es/typography/Title";
 import { useState } from "react";
 import Slot from "./components/configuration/slot";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { EXAMPLE } from "./codeExample.js";
+import { ImagePreviewer } from "nidea-react-image-previewer";
 
 function App() {
   const [width, setWidth] = useState(400);

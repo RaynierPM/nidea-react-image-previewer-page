@@ -10,20 +10,10 @@ A React-based image previewer built with Vite. This project allows users to uplo
 - Support for multiple image formats (JPEG, PNG, GIF, etc.)
 - Lightweight and fast using Vite
 
-## Getting Started
-
-### Prerequisites
-
-Make sure you have [Node.js](https://nodejs.org/) installed.
-
 ### Installation
 
-Clone the repository and install dependencies:
-
-```sh
-git clone https://github.com/yourusername/react-image-previewer.git
-cd react-image-previewer
-npm install
+```
+npm i nidea-react-image-previewer
 ```
 
 ### Development
@@ -56,4 +46,3 @@ This project is licensed under the MIT License.
 ---
 
 Feel free to contribute or suggest improvements!
-
