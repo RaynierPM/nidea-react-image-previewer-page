@@ -83,11 +83,15 @@ export default function ImagePreviewer({
     return imagePreviewer.current?.getBlob();
   }
 
+  async function downloadImage() {
+    return imagePreviewer.current?.downloadImage();
+  }
+
   return (
     <PreviewerContext.Provider
       value={{
         loadBlob: loadImageToBlob,
-        downloadBlob: imagePreviewer.current?.downloadImage(),
+        downloadBlob: downloadImage,
         onChangeFile: handleImageChange,
       }}
     >

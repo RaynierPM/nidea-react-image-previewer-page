@@ -18,6 +18,7 @@ export class DownloableCanvas {
    * @param {import('./CanvasImagePointer').ImagePointer} imageInfo
    */
   constructor(imageInfo) {
+    console.log(this.#imageInfo);
     this.#imageInfo = imageInfo;
 
     this.#canvas = document.createElement("canvas");

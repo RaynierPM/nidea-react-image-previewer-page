@@ -295,6 +295,7 @@ export class ImagePreviewer {
   }
 
   async downloadImage() {
+    console.log("Llegue");
     if (this.#imageInfo) {
       return await new DownloableCanvas(this.#imageInfo).download();
     }
