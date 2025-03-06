@@ -11,9 +11,7 @@
   },
   "dependencies": {
     "antd": "^5.24.2",
-    "i": "^0.3.7",
-    "nidea-react-image-previewer": "^1.0.2",
-    "npm": "^11.1.0",
+    "nidea-react-img-preview": "^1.0.0",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-code-blocks": "^0.1.6",

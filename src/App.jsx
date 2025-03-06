@@ -5,7 +5,7 @@ import { useState } from "react";
 import Slot from "./components/configuration/slot";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { EXAMPLE } from "./codeExample.js";
-import { ImagePreviewer } from "nidea-react-image-previewer";
+import { ImagePreviewer } from "nidea-react-img-preview";
 
 function App() {
   const [width, setWidth] = useState(400);
@@ -17,7 +17,6 @@ function App() {
   const [showCode, setShowCode] = useState(false);
 
   /**
-   *
    * @param {import('react').ChangeEvent<HTMLInputElement>} event
    */
   function handleChangeWidth(event) {
@@ -91,7 +90,7 @@ function App() {
             >
               <ImagePreviewer.ImageInput>
                 {({ onChangeFile }) => (
-                  <Input type="file" onChange={onChangeFile} />
+                  <Input type="file" onChange={onChangeFile} accept="image/*" />
                 )}
               </ImagePreviewer.ImageInput>
 
