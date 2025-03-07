@@ -23,20 +23,29 @@ export const EXAMPLE = `<ImagePreviewer
         )}
       </ImagePreviewer.DownloadButton>
 
-      <ImagePreviewer.BlobButton>
-        {({ loadBlob }) => (
+      <ImagePreviewer.ProcessBlobButton>
+        {({ getBlob }) => (
           <Button
             onClick={async () => {
-              console.log(await loadBlob());
-            }}
-            style={{
-              width: "100%",
+              const file = await getBlob();
+              if (file) {
+                const { type, size } = file;
+                api.info({
+                  message: "BLOB",
+                  description: \`Type: \${type} - size: \${size}\`,
+                });
+              } else {
+                api.error({
+                  message: "error",
+                  description: "Please add a image",
+                });
+              }
             }}
           >
-            Load blob
+            Test manipulating blob
           </Button>
         )}
-      </ImagePreviewer.BlobButton>
+      </ImagePreviewer.ProcessBlobButton>
     </div>
   </div>
 
