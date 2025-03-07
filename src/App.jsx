@@ -121,6 +121,11 @@ function App() {
                           message: "BLOB",
                           description: `Type: ${type} - size: ${size}`,
                         });
+                      } else {
+                        api.error({
+                          message: "error",
+                          description: "Please add a image",
+                        });
                       }
                     }}
                   >
