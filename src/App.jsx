@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Switch } from "antd";
+import { Button, Flex, Input, notification, Switch } from "antd";
 import "./App.css";
 import Title from "antd/es/typography/Title";
 import { useState } from "react";
@@ -60,8 +60,11 @@ function App() {
     }
   }
 
+  const [api, context] = notification.useNotification();
+
   return (
     <>
+      {context}
       <header>
         <h1>Image previewer</h1>
       </header>
@@ -107,20 +110,24 @@ function App() {
                 )}
               </ImagePreviewer.DownloadButton>
 
-              <ImagePreviewer.BlobButton>
-                {({ loadBlob }) => (
+              <ImagePreviewer.ProcessBlobButton>
+                {({ getBlob }) => (
                   <Button
                     onClick={async () => {
-                      console.log(await loadBlob());
-                    }}
-                    style={{
-                      width: "100%",
+                      const file = await getBlob();
+                      if (file) {
+                        const { type, size } = file;
+                        api.info({
+                          message: "BLOB",
+                          description: `Type: ${type} - size: ${size}`,
+                        });
+                      }
                     }}
                   >
-                    Load blob
+                    Test manipulating blob
                   </Button>
                 )}
-              </ImagePreviewer.BlobButton>
+              </ImagePreviewer.ProcessBlobButton>
             </div>
           </div>
 
