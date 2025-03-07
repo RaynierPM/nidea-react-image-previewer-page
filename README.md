@@ -1,4 +1,4 @@
-# React Image Previewer
+# React Image Previewer (nidea-iviewer)
 
 A React-based image previewer built with Vite. This project allows users to upload images and preview them on a canvas with interactive features.
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Slot from "./components/configuration/slot";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { EXAMPLE } from "./codeExample.js";
-import { ImagePreviewer } from "nidea-react-img-preview";
+import { ImagePreviewer } from "nidea-react-iviewer";
 
 function App() {
   const [width, setWidth] = useState(400);
